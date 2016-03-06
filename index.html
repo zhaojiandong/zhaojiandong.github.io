@@ -323,24 +323,122 @@
 </tbody>
 </table>
 <h2 id="2-_配置日志信息输出目的地">2. 配置日志信息输出目的地</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.ConsoleAppender</span>(控制台)</span><br><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.FileAppender</span>(文件)</span><br><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.DailyRollingFileAppender</span>(每天产生一个日志文件)</span><br><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.RollingFileAppender</span>(文件到达指定大小的时候产生一个新的文件)</span><br><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.WriterAppender</span>(将日志信息以流格式发送到任意指定的地方)</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p><strong>ConsoleAppender参数选项</strong></p>
-<p>  | 参数      |    含义  |<br>  | :——–: | :——–: |<br>  | Threshold | 指定日志信息的最低输出级别，默认为DEBUG |<br>  | ImmediateFlush | true表示所有消息都会被立即输出，设为false则不输出，默认值是true |<br>  | Target    | 默认值是System.out |</p>
-</li>
-</ul>
-<ul>
-<li><p><strong>FileAppender参数选项</strong></p>
-<p>  | 参数       |    含义  |<br>  | :——–: | :——–: |<br>  | Threshold | 日志最低输出级别 |<br>  | ImmediateFlush |   |<br>  | Append   | true表示日志添加文件末尾，false则将覆盖文件，默认值是true|<br>  | File    | 日志的路径，指定消息输出到|</p>
-</li>
-<li><p><strong>DailyRollingFileAppender参数选项</strong></p>
-<p>  | 参数       |    含义  |<br>  | :——–: | :——–: |<br>  | Threshold |  |<br>  | ImmediateFlush |   |<br>  | Append   |  |<br>  | File    | 日志的路径，指定消息输出到某个文件|<br>  | DatePattern | 产生文件的周期，yyyy-MM表示每月；yyyy-ww表示每周；yyyy-MM-dd表示每天；yyyy-MM-dd-a表示每天两次（一般前面加’.’’效果是*.log.2015-10-01）|</p>
-</li>
-</ul>
-<ul>
-<li><p><strong>RollingFileAppender（文件到达指定大小的时候产生一个新的文件）参数选项</strong></p>
-<p>  | 参数       |    含义  |<br>  | :——–: | :——–: |<br>  | Threshold |   |<br>  | ImmediateFlush |   |<br>  | Append   |  |<br>  | File    |  |<br>  | MaxFileSize| 允许的最大文件大小，超过该值，将内容移到logging.log4j.1。单位：KB, MB,GB… 默认大小100KB|<br>  | MaxBackupIndex| 指定可以产生的滚动文件的最大数，设置为2可以产生 *.log.1，*.log.2两个滚动文件。默认值2|</p>
-</li>
-</ul>
+<p> <strong>ConsoleAppender参数选项</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Threshold</td>
+<td style="text-align:center">指定日志信息的最低输出级别，默认为DEBUG</td>
+</tr>
+<tr>
+<td style="text-align:center">ImmediateFlush</td>
+<td style="text-align:center">true表示所有消息都会被立即输出，设为false则不输出，默认值是true</td>
+</tr>
+<tr>
+<td style="text-align:center">Target</td>
+<td style="text-align:center">默认值是System.out</td>
+</tr>
+</tbody>
+</table>
+<p><strong>FileAppender参数选项</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Threshold</td>
+<td style="text-align:center">日志最低输出级别</td>
+</tr>
+<tr>
+<td style="text-align:center">ImmediateFlush</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">Append</td>
+<td style="text-align:center">true表示日志添加文件末尾，false则将覆盖文件，默认值是true</td>
+</tr>
+<tr>
+<td style="text-align:center">File</td>
+<td style="text-align:center">日志的路径，指定消息输出到</td>
+</tr>
+</tbody>
+</table>
+<p><strong>DailyRollingFileAppender参数选项</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Threshold</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">ImmediateFlush</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">Append</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">File</td>
+<td style="text-align:center">日志的路径，指定消息输出到某个文件</td>
+</tr>
+<tr>
+<td style="text-align:center">DatePattern</td>
+<td style="text-align:center">产生文件的周期，yyyy-MM表示每月；yyyy-ww表示每周；yyyy-MM-dd表示每天；yyyy-MM-dd-a表示每天两次（一般前面加’.’’效果是*.log.2015-10-01）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RollingFileAppender（文件到达指定大小的时候产生一个新的文件）参数选项</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Threshold</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">ImmediateFlush</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">Append</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">File</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">MaxFileSize</td>
+<td style="text-align:center">允许的最大文件大小，超过该值，将内容移到logging.log4j.1。单位：KB, MB,GB… 默认大小100KB</td>
+</tr>
+<tr>
+<td style="text-align:center">MaxBackupIndex</td>
+<td style="text-align:center">指定可以产生的滚动文件的最大数，设置为2可以产生 *.log.1，*.log.2两个滚动文件。默认值2</td>
+</tr>
+</tbody>
+</table>
 <h3 id="2-1_配置日志信息的格式Layout">2.1 配置日志信息的格式Layout</h3><p>Layout用来规定日志是以什么样的格式输出，需要输出哪些信息。Layout提供四种日志输出样式：HTML样式、自由指定样式、包含日志级别与信息的样式和包含日志时间、线程、类别等信息的样式。常用的格式PatternLayout<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.HTMLLayout</span> (以HTML表格形式布局)</span><br><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.PatternLayout</span> (可以灵活地指定布局模式)</span><br><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.SimpleLayout</span> (包含日志信息的级别和信息字符串)</span><br><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.TTCCLayout</span> (包含日志产生的时间、线程、类别等等信息)</span><br></pre></td></tr></table></figure></p>
 <h3 id="2-2_PatternLayout参数，定义日志打印格式">2.2 PatternLayout参数，定义日志打印格式</h3><figure class="highlight mojolicious"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="perl"><span class="variable">%m</span>   输出代码中指定的消息</span><span class="xml"></span><br><span class="line"></span><span class="perl"><span class="variable">%p</span>   输出优先级，即DEBUG,INFO,WARN,ERROR,FATAL</span><span class="xml"></span><br><span class="line"></span><span class="perl"><span class="variable">%r</span>   输出自应用启动到输出该<span class="keyword">log</span>信息耗费的毫秒数</span><span class="xml"></span><br><span class="line"></span><span class="perl"><span class="variable">%c</span>   输出所属的类目，通常就是所在类的全名</span><span class="xml"></span><br><span class="line"></span><span class="perl"><span class="variable">%t</span>   输出产生该日志事件的线程名</span><span class="xml"></span><br><span class="line"></span><span class="perl"><span class="variable">%n</span>   输出一个回车换行符，Windows平台为“\r\n”，Unix平台为“\n”</span><span class="xml"></span><br><span class="line"></span><span class="perl"><span class="variable">%d</span>   输出日志时间点的日期或时间，可以指定格式，比如：<span class="variable">%d</span>&#123;yyyy-MMM-dd HH:mm:ss,SSS&#125;，输出<span class="number">2015</span>-<span class="number">10</span>-<span class="number">18</span> <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span>,<span class="number">100</span>  </span><span class="xml"></span><br><span class="line"></span><span class="perl"><span class="variable">%l</span>   输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
 <ul>
