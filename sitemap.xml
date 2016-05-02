@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhaojiandong.github.io/log4jdetail/</loc>
+    <lastmod>2016-05-02T13:58:32.235Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://zhaojiandong.github.io/zookeeperintroduce/</loc>
     <lastmod>2016-05-02T13:53:30.478Z</lastmod>
   </url>
@@ -9,11 +14,6 @@
   <url>
     <loc>http://zhaojiandong.github.io/zookeeperlock/</loc>
     <lastmod>2016-05-02T13:51:51.853Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://zhaojiandong.github.io/log4jdetail/</loc>
-    <lastmod>2016-03-06T16:07:49.391Z</lastmod>
   </url>
   
   <url>

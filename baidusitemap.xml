@@ -3,6 +3,23 @@
 
     
   <url>
+    <loc>http://zhaojiandong.github.io/log4jdetail/</loc>
+    <lastmod>2016-05-02T13:58:32.235Z</lastmod>
+    <data>
+        <display>
+        <title>log4j配置详解</title>
+        <pubTime>2016-03-06T15:08:27.000Z</pubTime>
+        
+        <tag>log, log4j </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://zhaojiandong.github.io/zookeeperintroduce/</loc>
     <lastmod>2016-05-02T13:53:30.478Z</lastmod>
     <data>
@@ -27,23 +44,6 @@
         <title>ZooKeeper分布式锁</title>
         <pubTime>2016-03-02T13:45:35.000Z</pubTime>
         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://zhaojiandong.github.io/log4jdetail/</loc>
-    <lastmod>2016-03-06T16:07:49.391Z</lastmod>
-    <data>
-        <display>
-        <title>log4j配置详解</title>
-        <pubTime>2016-03-06T15:08:27.000Z</pubTime>
-        
-        <tag>log, log4j </tag>
-         
          
            
         </display>

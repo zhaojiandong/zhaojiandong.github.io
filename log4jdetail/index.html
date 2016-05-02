@@ -49,7 +49,7 @@
 
 
 级别">
-<meta property="og:updated_time" content="2016-03-06T16:07:49.391Z">
+<meta property="og:updated_time" content="2016-05-02T13:58:32.235Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="log4j配置详解">
 <meta name="twitter:description" content="Apache log4j是一个基于Java的日志记录工具。它最初是由CekiGülcü写的，现在是Apache软件基金会的一个项目， log4j的是主流Java日志框架之一。此后Gülcü设计了SLF4J和Logback，意图成为log4j的继任者。log4j团队创建了log4j2.0新版本，log4j 2.0改进了很多logback中可用问题，和架构问题。
@@ -263,122 +263,24 @@
 </tbody>
 </table>
 <h2 id="2-_配置日志信息输出目的地">2. 配置日志信息输出目的地</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.ConsoleAppender</span>(控制台)</span><br><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.FileAppender</span>(文件)</span><br><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.DailyRollingFileAppender</span>(每天产生一个日志文件)</span><br><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.RollingFileAppender</span>(文件到达指定大小的时候产生一个新的文件)</span><br><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.WriterAppender</span>(将日志信息以流格式发送到任意指定的地方)</span><br></pre></td></tr></table></figure>
-<p> <strong>ConsoleAppender参数选项</strong></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">参数</th>
-<th style="text-align:center">含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Threshold</td>
-<td style="text-align:center">指定日志信息的最低输出级别，默认为DEBUG</td>
-</tr>
-<tr>
-<td style="text-align:center">ImmediateFlush</td>
-<td style="text-align:center">true表示所有消息都会被立即输出，设为false则不输出，默认值是true</td>
-</tr>
-<tr>
-<td style="text-align:center">Target</td>
-<td style="text-align:center">默认值是System.out</td>
-</tr>
-</tbody>
-</table>
-<p><strong>FileAppender参数选项</strong></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">参数</th>
-<th style="text-align:center">含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Threshold</td>
-<td style="text-align:center">日志最低输出级别</td>
-</tr>
-<tr>
-<td style="text-align:center">ImmediateFlush</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">Append</td>
-<td style="text-align:center">true表示日志添加文件末尾，false则将覆盖文件，默认值是true</td>
-</tr>
-<tr>
-<td style="text-align:center">File</td>
-<td style="text-align:center">日志的路径，指定消息输出到</td>
-</tr>
-</tbody>
-</table>
-<p><strong>DailyRollingFileAppender参数选项</strong></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">参数</th>
-<th style="text-align:center">含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Threshold</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">ImmediateFlush</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">Append</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">File</td>
-<td style="text-align:center">日志的路径，指定消息输出到某个文件</td>
-</tr>
-<tr>
-<td style="text-align:center">DatePattern</td>
-<td style="text-align:center">产生文件的周期，yyyy-MM表示每月；yyyy-ww表示每周；yyyy-MM-dd表示每天；yyyy-MM-dd-a表示每天两次（一般前面加’.’’效果是*.log.2015-10-01）</td>
-</tr>
-</tbody>
-</table>
-<p><strong>RollingFileAppender（文件到达指定大小的时候产生一个新的文件）参数选项</strong></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">参数</th>
-<th style="text-align:center">含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Threshold</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">ImmediateFlush</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">Append</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">File</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">MaxFileSize</td>
-<td style="text-align:center">允许的最大文件大小，超过该值，将内容移到logging.log4j.1。单位：KB, MB,GB… 默认大小100KB</td>
-</tr>
-<tr>
-<td style="text-align:center">MaxBackupIndex</td>
-<td style="text-align:center">指定可以产生的滚动文件的最大数，设置为2可以产生 *.log.1，*.log.2两个滚动文件。默认值2</td>
-</tr>
-</tbody>
-</table>
+<ul>
+<li><p><strong>ConsoleAppender参数选项</strong></p>
+<p>  | 参数      |    含义  |<br>  | :——–: | :——–: |<br>  | Threshold | 指定日志信息的最低输出级别，默认为DEBUG |<br>  | ImmediateFlush | true表示所有消息都会被立即输出，设为false则不输出，默认值是true |<br>  | Target    | 默认值是System.out |</p>
+</li>
+</ul>
+<ul>
+<li><p><strong>FileAppender参数选项</strong></p>
+<p>  | 参数       |    含义  |<br>  | :——–: | :——–: |<br>  | Threshold | 日志最低输出级别 |<br>  | ImmediateFlush |   |<br>  | Append   | true表示日志添加文件末尾，false则将覆盖文件，默认值是true|<br>  | File    | 日志的路径，指定消息输出到|</p>
+</li>
+<li><p><strong>DailyRollingFileAppender参数选项</strong></p>
+<p>  | 参数       |    含义  |<br>  | :——–: | :——–: |<br>  | Threshold |  |<br>  | ImmediateFlush |   |<br>  | Append   |  |<br>  | File    | 日志的路径，指定消息输出到某个文件|<br>  | DatePattern | 产生文件的周期，yyyy-MM表示每月；yyyy-ww表示每周；yyyy-MM-dd表示每天；yyyy-MM-dd-a表示每天两次（一般前面加’.’’效果是*.log.2015-10-01）|</p>
+</li>
+</ul>
+<ul>
+<li><p><strong>RollingFileAppender（文件到达指定大小的时候产生一个新的文件）参数选项</strong></p>
+<p>  | 参数       |    含义  |<br>  | :——–: | :——–: |<br>  | Threshold |   |<br>  | ImmediateFlush |   |<br>  | Append   |  |<br>  | File    |  |<br>  | MaxFileSize| 允许的最大文件大小，超过该值，将内容移到logging.log4j.1。单位：KB, MB,GB… 默认大小100KB|<br>  | MaxBackupIndex| 指定可以产生的滚动文件的最大数，设置为2可以产生 *.log.1，*.log.2两个滚动文件。默认值2|</p>
+</li>
+</ul>
 <h3 id="2-1_配置日志信息的格式Layout">2.1 配置日志信息的格式Layout</h3><p>Layout用来规定日志是以什么样的格式输出，需要输出哪些信息。Layout提供四种日志输出样式：HTML样式、自由指定样式、包含日志级别与信息的样式和包含日志时间、线程、类别等信息的样式。常用的格式PatternLayout<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.HTMLLayout</span> (以HTML表格形式布局)</span><br><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.PatternLayout</span> (可以灵活地指定布局模式)</span><br><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.SimpleLayout</span> (包含日志信息的级别和信息字符串)</span><br><span class="line">org<span class="class">.apache</span><span class="class">.log4j</span><span class="class">.TTCCLayout</span> (包含日志产生的时间、线程、类别等等信息)</span><br></pre></td></tr></table></figure></p>
 <h3 id="2-2_PatternLayout参数，定义日志打印格式">2.2 PatternLayout参数，定义日志打印格式</h3><figure class="highlight mojolicious"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="perl"><span class="variable">%m</span>   输出代码中指定的消息</span><span class="xml"></span><br><span class="line"></span><span class="perl"><span class="variable">%p</span>   输出优先级，即DEBUG,INFO,WARN,ERROR,FATAL</span><span class="xml"></span><br><span class="line"></span><span class="perl"><span class="variable">%r</span>   输出自应用启动到输出该<span class="keyword">log</span>信息耗费的毫秒数</span><span class="xml"></span><br><span class="line"></span><span class="perl"><span class="variable">%c</span>   输出所属的类目，通常就是所在类的全名</span><span class="xml"></span><br><span class="line"></span><span class="perl"><span class="variable">%t</span>   输出产生该日志事件的线程名</span><span class="xml"></span><br><span class="line"></span><span class="perl"><span class="variable">%n</span>   输出一个回车换行符，Windows平台为“\r\n”，Unix平台为“\n”</span><span class="xml"></span><br><span class="line"></span><span class="perl"><span class="variable">%d</span>   输出日志时间点的日期或时间，可以指定格式，比如：<span class="variable">%d</span>&#123;yyyy-MMM-dd HH:mm:ss,SSS&#125;，输出<span class="number">2015</span>-<span class="number">10</span>-<span class="number">18</span> <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span>,<span class="number">100</span>  </span><span class="xml"></span><br><span class="line"></span><span class="perl"><span class="variable">%l</span>   输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
 <ul>
@@ -399,9 +301,8 @@
 <li>举例：log4j.rootLogger＝INFO, file, stdout 最低日志级别INFO，2个appender分别是file、stdout<br><strong>注意：参数Threshold也可以指定日志输出最低级别，但是当log4j.rootLogger指定时最低级别时，以rootLogger为主。</strong></li>
 </ul>
 <h4 id="举例">举例</h4><figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># rootLogger参数：最低输出级别INFO,定义<span class="number">2</span>个最低appender：<span class="keyword">file</span>和stdout</span><br><span class="line">log4j.rootLogger=INFO,<span class="keyword">file</span>,stdout</span><br><span class="line"></span><br><span class="line"># append = <span class="keyword">file</span></span><br><span class="line">log4j.appender.<span class="keyword">file</span>=org.apache.log4j.RollingFileAppender</span><br><span class="line">log4j.appender.<span class="keyword">file</span>.Threshold = DEBUG</span><br><span class="line">log4j.appender.<span class="keyword">file</span>.File=D:\\logfile.<span class="keyword">log</span></span><br><span class="line">log4j.appender.<span class="keyword">file</span>.MaxFileSize=<span class="number">10</span>MB</span><br><span class="line">log4j.appender.<span class="keyword">file</span>.MaxBackupIndex=<span class="number">10</span></span><br><span class="line">log4j.appender.<span class="keyword">file</span>.<span class="keyword">layout</span>=org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.<span class="keyword">file</span>.<span class="keyword">layout</span>.ConversionPattern=<span class="variable">%d</span>&#123;yyyy-MM-dd HH:mm:ss&#125; <span class="variable">%-</span><span class="number">5</span>p <span class="variable">%c</span>&#123;<span class="number">1</span>&#125;:<span class="variable">%L</span> - <span class="variable">%m</span><span class="variable">%n</span></span><br><span class="line"></span><br><span class="line"># append = stdout</span><br><span class="line">log4j.appender.stdout=org.apache.log4j.ConsoleAppender</span><br><span class="line">log4j.appender.stdout.Target=System.out</span><br><span class="line">log4j.appender.stdout.<span class="keyword">layout</span>=org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.stdout.<span class="keyword">layout</span>.ConversionPattern=<span class="variable">%d</span>&#123;yyyy-MM-dd HH:mm:ss&#125; <span class="variable">%-</span><span class="number">5</span>p <span class="variable">%c</span>&#123;<span class="number">1</span>&#125;:<span class="variable">%L</span> - <span class="variable">%m</span><span class="variable">%n</span></span><br></pre></td></tr></table></figure>
-<h2 id="3-2_log4j的xml格式配置">3.2 log4j的<a href="http://wiki.apache.org/logging-log4j/Log4jXmlFormat" target="_blank" rel="external">xml格式配置</a></h2><p>####3.2.1 log4j的xml配置文件的<a href="http://heavyz.sourceforge.net/homepage/homepage_zh/comp/notes/log4j.html" target="_blank" rel="external">树状结构图</a><br><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">xml declaration <span class="keyword">and</span> <span class="type">DTD</span></span><br><span class="line"> |</span><br><span class="line">log4j:configuration</span><br><span class="line"> |</span><br><span class="line"> +-- appender (name, class)</span><br><span class="line"> |     |</span><br><span class="line"> |     +-- param (name, value)</span><br><span class="line"> |     +-- layout (class)</span><br><span class="line"> |           |</span><br><span class="line"> |           +-- param (name, value)</span><br><span class="line"> +-- logger (name, additivity)</span><br><span class="line"> |     |</span><br><span class="line"> |     +-- level (class, value)</span><br><span class="line"> |     |     |</span><br><span class="line"> |     |     +-- param (name, value)</span><br><span class="line"> |     +-- appender-<span class="keyword">ref</span> (<span class="keyword">ref</span>)</span><br><span class="line"> +-- root</span><br><span class="line"> |     |</span><br><span class="line"> |     +-- priority (class, value)</span><br><span class="line"> |     +-- level (class, value)</span><br><span class="line"> |     +-- appender-<span class="keyword">ref</span> (<span class="keyword">ref</span>)</span><br></pre></td></tr></table></figure></p>
-<p>####3.2.2  log4j:configuration根元素介绍</p>
-<ul>
+<h2 id="3-2_log4j的xml格式配置">3.2 log4j的<a href="http://wiki.apache.org/logging-log4j/Log4jXmlFormat" target="_blank" rel="external">xml格式配置</a></h2><h4 id="3-2-1_log4j的xml配置文件的树状结构图">3.2.1 log4j的xml配置文件的<a href="http://heavyz.sourceforge.net/homepage/homepage_zh/comp/notes/log4j.html" target="_blank" rel="external">树状结构图</a></h4><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">xml declaration <span class="keyword">and</span> <span class="type">DTD</span></span><br><span class="line"> |</span><br><span class="line">log4j:configuration</span><br><span class="line"> |</span><br><span class="line"> +-- appender (name, class)</span><br><span class="line"> |     |</span><br><span class="line"> |     +-- param (name, value)</span><br><span class="line"> |     +-- layout (class)</span><br><span class="line"> |           |</span><br><span class="line"> |           +-- param (name, value)</span><br><span class="line"> +-- logger (name, additivity)</span><br><span class="line"> |     |</span><br><span class="line"> |     +-- level (class, value)</span><br><span class="line"> |     |     |</span><br><span class="line"> |     |     +-- param (name, value)</span><br><span class="line"> |     +-- appender-<span class="keyword">ref</span> (<span class="keyword">ref</span>)</span><br><span class="line"> +-- root</span><br><span class="line"> |     |</span><br><span class="line"> |     +-- priority (class, value)</span><br><span class="line"> |     +-- level (class, value)</span><br><span class="line"> |     +-- appender-<span class="keyword">ref</span> (<span class="keyword">ref</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="3-2-2_log4j:configuration根元素介绍">3.2.2  log4j:configuration根元素介绍</h4><ul>
 <li>appender:  定义日志输出目的地，可以配置多个</li>
 <li>logger:  定义日志写出器</li>
 <li>root:  定义了root logger，相当于properties格式log4j.rootLogger</li>
@@ -570,7 +471,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-_log4j的日志等级"><span class="nav-number">1.</span> <span class="nav-text">1. log4j的日志等级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-_配置日志信息输出目的地"><span class="nav-number">2.</span> <span class="nav-text">2. 配置日志信息输出目的地</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1_配置日志信息的格式Layout"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 配置日志信息的格式Layout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2_PatternLayout参数，定义日志打印格式"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 PatternLayout参数，定义日志打印格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-_log4j日志格式"><span class="nav-number">3.</span> <span class="nav-text">3. log4j日志格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1_log4j的properties格式配置"><span class="nav-number">4.</span> <span class="nav-text">3.1 log4j的properties格式配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#举例"><span class="nav-number">4.0.1.</span> <span class="nav-text">举例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2_log4j的xml格式配置"><span class="nav-number">5.</span> <span class="nav-text">3.2 log4j的xml格式配置</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-_log4j的日志等级"><span class="nav-number">1.</span> <span class="nav-text">1. log4j的日志等级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-_配置日志信息输出目的地"><span class="nav-number">2.</span> <span class="nav-text">2. 配置日志信息输出目的地</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1_配置日志信息的格式Layout"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 配置日志信息的格式Layout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2_PatternLayout参数，定义日志打印格式"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 PatternLayout参数，定义日志打印格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-_log4j日志格式"><span class="nav-number">3.</span> <span class="nav-text">3. log4j日志格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1_log4j的properties格式配置"><span class="nav-number">4.</span> <span class="nav-text">3.1 log4j的properties格式配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#举例"><span class="nav-number">4.0.1.</span> <span class="nav-text">举例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2_log4j的xml格式配置"><span class="nav-number">5.</span> <span class="nav-text">3.2 log4j的xml格式配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1_log4j的xml配置文件的树状结构图"><span class="nav-number">5.0.1.</span> <span class="nav-text">3.2.1 log4j的xml配置文件的树状结构图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2_log4j:configuration根元素介绍"><span class="nav-number">5.0.2.</span> <span class="nav-text">3.2.2  log4j:configuration根元素介绍</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
