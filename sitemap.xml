@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhaojiandong.github.io/about/index.html</loc>
+    <lastmod>2016-05-02T14:53:52.102Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://zhaojiandong.github.io/log4jdetail/</loc>
     <lastmod>2016-05-02T13:58:32.235Z</lastmod>
   </url>
@@ -48,11 +53,6 @@
   
   <url>
     <loc>http://zhaojiandong.github.io/categories/index.html</loc>
-    <lastmod>2015-08-23T12:54:23.827Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://zhaojiandong.github.io/about/index.html</loc>
     <lastmod>2015-08-23T12:54:23.827Z</lastmod>
   </url>
   
