@@ -90,7 +90,7 @@
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/zk_ex_lock_liucheng.jpg">
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/zk_shared_lock.jpg">
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/zk_shared_lock_liucheng2.jpg">
-<meta property="og:updated_time" content="2016-05-04T09:33:22.186Z">
+<meta property="og:updated_time" content="2016-05-04T09:36:37.565Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ZooKeeper分布式锁">
 <meta name="twitter:description" content="ZooKeeper排它锁排它锁（Exclusive Lock），又称为写锁和独占锁。在Java中排它锁可以用synchronized机制和JDK5提供的ReentrantLock。ZooKeeper中直接的API的实现排它锁，而是通过ZooKeeper的节点来实现锁。首先创建一个/Exclusive_Lock节点，然后创建一个其子节点 /Exclusive_Lock/lock，为临时(EPHEME">
@@ -317,8 +317,7 @@
       
 
       
-        <h2 id="ZooKeeper排它锁">ZooKeeper排它锁</h2><p>排它锁（Exclusive Lock），又称为写锁和独占锁。在Java中排它锁可以用synchronized机制和JDK5提供的ReentrantLock。ZooKeeper中直接的API的实现排它锁，而是通过ZooKeeper的节点来实现锁。首先创建一个/Exclusive_Lock节点，然后创建一个其子节点 /Exclusive_Lock/lock，为临时(EPHEMERAL)节点。如下图<br><img src="http://7xlamb.com1.z0.glb.clouddn.com/zk_exclusive_lock.jpg" alt="ZK排它锁"></p>
-<a id="more"></a>
+        <h2 id="ZooKeeper排它锁">ZooKeeper排它锁</h2><p>排它锁（Exclusive Lock），又称为写锁和独占锁。在Java中排它锁可以用synchronized机制和JDK5提供的ReentrantLock。ZooKeeper中直接的API的实现排它锁，而是通过ZooKeeper的节点来实现锁。首先创建一个/Exclusive_Lock节点，然后创建一个其子节点 /Exclusive_Lock/lock，为临时(EPHEMERAL)节点。如下图<br><a id="more"></a><br><img src="http://7xlamb.com1.z0.glb.clouddn.com/zk_exclusive_lock.jpg" alt="ZK排它锁"></p>
 <h5 id="锁获取">锁获取</h5><p>需要获取锁的所有Client，都试图创建临时节点 /Exclusive_Lock/lock，ZK会保证只有一个client创建成功，创建成功的client获得锁。没有获得锁的节点需要到/Exclusive_Lock节点下面注册节点变更的Watcher监听，一旦lock节点变更，其他的client可以再次创建lock节点（抢占锁）。</p>
 <h5 id="锁释放">锁释放</h5><p>锁的释放，即是lock节点被删除，所以有两种情况可以释放锁</p>
 <ul>
@@ -440,9 +439,9 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://7xlamb.com1.z0.glb.clouddn.com/gitpage2.jpg"
-               alt="ZhaoJiandong" />
-          <p class="site-author-name" itemprop="name">ZhaoJiandong</p>
-          <p class="site-description motion-element" itemprop="description"></p>
+               alt="jiandong.zhao" />
+          <p class="site-author-name" itemprop="name">jiandong.zhao</p>
+          <p class="site-description motion-element" itemprop="description">coder@alibaba</p>
         </div>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
@@ -509,7 +508,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">ZhaoJiandong</span>
+  <span class="author" itemprop="copyrightHolder">jiandong.zhao</span>
 </div>
 
 <div class="powered-by">

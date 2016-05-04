@@ -2,6 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhaojiandong.github.io/about/index.html</loc>
+    <lastmod>2016-05-04T09:49:16.192Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://zhaojiandong.github.io/java-class-loader/</loc>
+    <lastmod>2016-05-04T09:45:52.091Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://zhaojiandong.github.io/zookeeperlock/</loc>
+    <lastmod>2016-05-04T09:36:37.565Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://zhaojiandong.github.io/asmproxy/</loc>
     <lastmod>2016-05-04T09:34:18.417Z</lastmod>
   </url>
@@ -22,11 +37,6 @@
   </url>
   
   <url>
-    <loc>http://zhaojiandong.github.io/zookeeperlock/</loc>
-    <lastmod>2016-05-04T09:33:22.186Z</lastmod>
-  </url>
-  
-  <url>
     <loc>http://zhaojiandong.github.io/zookeeperintroduce/</loc>
     <lastmod>2016-05-04T09:33:09.569Z</lastmod>
   </url>
@@ -39,16 +49,6 @@
   <url>
     <loc>http://zhaojiandong.github.io/log4jdetail/</loc>
     <lastmod>2016-05-04T09:29:47.484Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://zhaojiandong.github.io/about/index.html</loc>
-    <lastmod>2016-05-02T14:53:52.102Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://zhaojiandong.github.io/java-class-loader/</loc>
-    <lastmod>2015-10-24T17:26:44.174Z</lastmod>
   </url>
   
   <url>
