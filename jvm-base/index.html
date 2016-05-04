@@ -81,19 +81,13 @@
 
 
 <meta name="description" content="JVM垃圾收集1. 判断对象是否存活
-引用计数算法对象添加一个引用计数器，每个地方引用它，计数器值加+1；当引用失效，计算器值减1；任何时刻计数器为0的对象不可能被使用。引用计数算法实现简单，高效。缺点：引用计数算法，很难解决相互引用的问题。
-12objA.instance = B;objB.instance = C;
-
-可达性分析算法主流商用算法，通过一些列的”GC roots” 作为对象的起点">
+引用计数算法对象添加一个引用计数器，每个地方引用它，计数器值加+1；当引用失效，计算器值减1；任何时刻计数器为0的对象不可能被使用。引用计数算法实现简单，高效。缺点：引用计数算法，很难解决相互引用的问题。12objA.instance = B;objB.instance = C;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM垃圾收集算法">
 <meta property="og:url" content="http://zhaojiandong.github.io/jvm-base/index.html">
 <meta property="og:site_name" content="Source Code Cracker">
 <meta property="og:description" content="JVM垃圾收集1. 判断对象是否存活
-引用计数算法对象添加一个引用计数器，每个地方引用它，计数器值加+1；当引用失效，计算器值减1；任何时刻计数器为0的对象不可能被使用。引用计数算法实现简单，高效。缺点：引用计数算法，很难解决相互引用的问题。
-12objA.instance = B;objB.instance = C;
-
-可达性分析算法主流商用算法，通过一些列的”GC roots” 作为对象的起点">
+引用计数算法对象添加一个引用计数器，每个地方引用它，计数器值加+1；当引用失效，计算器值减1；任何时刻计数器为0的对象不可能被使用。引用计数算法实现简单，高效。缺点：引用计数算法，很难解决相互引用的问题。12objA.instance = B;objB.instance = C;">
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/GC分代">
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/垃圾收集器的图.png">
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/jvmSerial收集器.png">
@@ -103,14 +97,11 @@
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/jvm收集器运行示意图.png">
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/jvmCMS和Serial%20收集器区别.png">
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/jvmG1收集器.png">
-<meta property="og:updated_time" content="2015-09-20T17:21:00.254Z">
+<meta property="og:updated_time" content="2016-05-04T09:33:36.542Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM垃圾收集算法">
 <meta name="twitter:description" content="JVM垃圾收集1. 判断对象是否存活
-引用计数算法对象添加一个引用计数器，每个地方引用它，计数器值加+1；当引用失效，计算器值减1；任何时刻计数器为0的对象不可能被使用。引用计数算法实现简单，高效。缺点：引用计数算法，很难解决相互引用的问题。
-12objA.instance = B;objB.instance = C;
-
-可达性分析算法主流商用算法，通过一些列的”GC roots” 作为对象的起点">
+引用计数算法对象添加一个引用计数器，每个地方引用它，计数器值加+1；当引用失效，计算器值减1；任何时刻计数器为0的对象不可能被使用。引用计数算法实现简单，高效。缺点：引用计数算法，很难解决相互引用的问题。12objA.instance = B;objB.instance = C;">
 
 
 
@@ -335,11 +326,12 @@
 
       
         <h1 id="JVM垃圾收集">JVM垃圾收集</h1><h2 id="1-_判断对象是否存活">1. 判断对象是否存活</h2><ul>
-<li><p>引用计数算法<br>对象添加一个引用计数器，每个地方引用它，计数器值加+1；当引用失效，计算器值减1；任何时刻计数器为0的对象不可能被使用。引用计数算法实现简单，高效。<br>缺点：引用计数算法，很难解决相互引用的问题。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">objA.instance = B;</span><br><span class="line">objB.instance = C;</span><br></pre></td></tr></table></figure>
+<li>引用计数算法<br>对象添加一个引用计数器，每个地方引用它，计数器值加+1；当引用失效，计算器值减1；任何时刻计数器为0的对象不可能被使用。引用计数算法实现简单，高效。<br>缺点：引用计数算法，很难解决相互引用的问题。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">objA.instance = B;</span><br><span class="line">objB.instance = C;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p><strong>可达性分析算法</strong><br>主流商用算法，通过一些列的”GC roots” 作为对象的起点，从这些节点开始向下搜索，锁走过的路径成为引用链(reference Chain),当一个对象到GC root没有任何引用链项链，则证明对象不可用。<br>在Java语言中，可以作为回收改对象 GC Roots的对象：<br>  虚拟机栈中引用的对象<br>  方法区中类静态属性引用对象<br>  方法区中常量引用的对象<br>  本地房发展中JNI(一般说的Native方法)引用对象</p>
-</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li><strong>可达性分析算法</strong><br>主流商用算法，通过一些列的”GC roots” 作为对象的起点，从这些节点开始向下搜索，锁走过的路径成为引用链(reference Chain),当一个对象到GC root没有任何引用链项链，则证明对象不可用。<br>在Java语言中，可以作为回收改对象 GC Roots的对象：<br>  虚拟机栈中引用的对象<br>  方法区中类静态属性引用对象<br>  方法区中常量引用的对象<br>  本地房发展中JNI(一般说的Native方法)引用对象</li>
 <li><strong>再谈引用</strong><br>强引用：代码中普遍存在的，object obj = new Object();<br>软引用：有用但非必须的对象<br>弱引用：非必须的对象，当GC工作室，都会被回收<br>虚引用：称为幽灵引用或欢迎引用，最弱的一种引用</li>
 </ul>
 <hr>
@@ -543,7 +535,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
