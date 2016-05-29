@@ -320,12 +320,12 @@
         
           
             <blockquote>
-<p>Netty NIO中最重要的两个方法write和flush，write方法把数据写入到OutboundBuffer（不真正发送数据），Flush方法真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。</p>
+<p>Netty NIO中最重要的两个方法write和flush，write是把数据写入到OutboundBuffer（不真正发送数据），flush是真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。</p>
 </blockquote>
-<p>##　write方法源码分析</p>
-<ul>
+<h2 id="write方法源码分析">write方法源码分析</h2><ul>
 <li>Channel以NioSocketChannel为例，</li>
-<li>NioSocketChannel继承抽象类，在调用图中只用NioSocketChannel表示，边上的类名表示具体哪个抽象类和内部类</li>
+<li>NioSocketChannel继承关系入下图所示，在调用流程图上我们用边上的类名表示抽象类或者内部类</li>
+<li><img src="http://7xlamb.com1.z0.glb.clouddn.com/niosocketchannel.JPG" alt=""></li>
 </ul>
 <h3 id="1-_AbstractChannel-write">1. AbstractChannel.write</h3><p>客户端首先调用了write方法，pipeline默认是实现是DefaultChannelPipeline<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">sendMsg</span><span class="params">(ByteBuf msg)</span></span>&#123;</span><br><span class="line">    future.channel().write(msg);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="function">ChannelFuture <span class="title">write</span><span class="params">(Object msg)</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">return</span> pipeline.<span class="title">write</span><span class="params">(msg)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h3 id="2-_DefaultChannelPipeline-write方法">2. DefaultChannelPipeline.write方法</h3><p>接着看DefaultChannelPipeline的write方法，最后一个handler写入<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="function">ChannelFuture <span class="title">write</span><span class="params">(Object msg)</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">return</span> tail.<span class="title">write</span><span class="params">(msg)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>

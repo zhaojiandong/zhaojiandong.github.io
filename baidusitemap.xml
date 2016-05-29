@@ -3,14 +3,14 @@
 
     
   <url>
-    <loc>http://zhaojiandong.github.io/jvm-base/</loc>
-    <lastmod>2016-05-29T16:50:29.203Z</lastmod>
+    <loc>http://zhaojiandong.github.io/netty-write-flush/</loc>
+    <lastmod>2016-05-29T16:59:56.715Z</lastmod>
     <data>
         <display>
-        <title>JVM垃圾收集算法</title>
-        <pubTime>2015-08-09T15:55:08.000Z</pubTime>
+        <title>Netty4.x write和flush源码分析（未完待续）</title>
+        <pubTime>2016-04-29T16:47:04.000Z</pubTime>
         
-        <tag>jvm GC </tag>
+        <tag>netty scc </tag>
          
          
            
@@ -20,14 +20,14 @@
 
     
   <url>
-    <loc>http://zhaojiandong.github.io/netty-write-flush/</loc>
-    <lastmod>2016-05-29T16:48:06.808Z</lastmod>
+    <loc>http://zhaojiandong.github.io/jvm-base/</loc>
+    <lastmod>2016-05-29T16:50:29.203Z</lastmod>
     <data>
         <display>
-        <title>Netty4.x write和flush源码分析（未完待续）</title>
-        <pubTime>2016-04-29T16:47:04.000Z</pubTime>
+        <title>JVM垃圾收集算法</title>
+        <pubTime>2015-08-09T15:55:08.000Z</pubTime>
         
-        <tag>netty scc </tag>
+        <tag>jvm GC </tag>
          
          
            

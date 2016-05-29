@@ -80,32 +80,30 @@
 
 
 
-<meta name="description" content="Netty NIO中最重要的两个方法write和flush，write方法把数据写入到OutboundBuffer（不真正发送数据），Flush方法真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。
+<meta name="description" content="Netty NIO中最重要的两个方法write和flush，write是把数据写入到OutboundBuffer（不真正发送数据），flush是真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。
 
-##　write方法源码分析
-
+write方法源码分析
 Channel以NioSocketChannel为例，
-NioSocketChannel继承抽象类，在调用">
+NioSocketChannel继承关系入下图所示，在调用流程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Netty4.x write和flush源码分析（未完待续）">
 <meta property="og:url" content="http://zhaojiandong.github.io/netty-write-flush/index.html">
 <meta property="og:site_name" content="Source Code Cracker">
-<meta property="og:description" content="Netty NIO中最重要的两个方法write和flush，write方法把数据写入到OutboundBuffer（不真正发送数据），Flush方法真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。
+<meta property="og:description" content="Netty NIO中最重要的两个方法write和flush，write是把数据写入到OutboundBuffer（不真正发送数据），flush是真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。
 
-##　write方法源码分析
-
+write方法源码分析
 Channel以NioSocketChannel为例，
-NioSocketChannel继承抽象类，在调用">
+NioSocketChannel继承关系入下图所示，在调用流程">
+<meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/niosocketchannel.JPG">
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/Netty-scc-Write.jpg">
-<meta property="og:updated_time" content="2016-05-29T16:48:06.808Z">
+<meta property="og:updated_time" content="2016-05-29T16:59:56.715Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Netty4.x write和flush源码分析（未完待续）">
-<meta name="twitter:description" content="Netty NIO中最重要的两个方法write和flush，write方法把数据写入到OutboundBuffer（不真正发送数据），Flush方法真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。
+<meta name="twitter:description" content="Netty NIO中最重要的两个方法write和flush，write是把数据写入到OutboundBuffer（不真正发送数据），flush是真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。
 
-##　write方法源码分析
-
+write方法源码分析
 Channel以NioSocketChannel为例，
-NioSocketChannel继承抽象类，在调用">
+NioSocketChannel继承关系入下图所示，在调用流程">
 
 
 
@@ -330,12 +328,12 @@ NioSocketChannel继承抽象类，在调用">
 
       
         <blockquote>
-<p>Netty NIO中最重要的两个方法write和flush，write方法把数据写入到OutboundBuffer（不真正发送数据），Flush方法真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。</p>
+<p>Netty NIO中最重要的两个方法write和flush，write是把数据写入到OutboundBuffer（不真正发送数据），flush是真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。</p>
 </blockquote>
-<p>##　write方法源码分析</p>
-<ul>
+<h2 id="write方法源码分析">write方法源码分析</h2><ul>
 <li>Channel以NioSocketChannel为例，</li>
-<li>NioSocketChannel继承抽象类，在调用图中只用NioSocketChannel表示，边上的类名表示具体哪个抽象类和内部类</li>
+<li>NioSocketChannel继承关系入下图所示，在调用流程图上我们用边上的类名表示抽象类或者内部类</li>
+<li><img src="http://7xlamb.com1.z0.glb.clouddn.com/niosocketchannel.JPG" alt=""></li>
 </ul>
 <h3 id="1-_AbstractChannel-write">1. AbstractChannel.write</h3><p>客户端首先调用了write方法，pipeline默认是实现是DefaultChannelPipeline<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">sendMsg</span><span class="params">(ByteBuf msg)</span></span>&#123;</span><br><span class="line">    future.channel().write(msg);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="function">ChannelFuture <span class="title">write</span><span class="params">(Object msg)</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">return</span> pipeline.<span class="title">write</span><span class="params">(msg)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h3 id="2-_DefaultChannelPipeline-write方法">2. DefaultChannelPipeline.write方法</h3><p>接着看DefaultChannelPipeline的write方法，最后一个handler写入<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="function">ChannelFuture <span class="title">write</span><span class="params">(Object msg)</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">return</span> tail.<span class="title">write</span><span class="params">(msg)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -499,7 +497,7 @@ NioSocketChannel继承抽象类，在调用">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-_AbstractChannel-write"><span class="nav-number">1.</span> <span class="nav-text">1. AbstractChannel.write</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-_DefaultChannelPipeline-write方法"><span class="nav-number">2.</span> <span class="nav-text">2. DefaultChannelPipeline.write方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-_接着看AbstractChannelHandlerContext-_write_方法"><span class="nav-number">3.</span> <span class="nav-text">3. 接着看AbstractChannelHandlerContext. write 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-_接着看_AbstractChannelHandlerContext-write_方法"><span class="nav-number">4.</span> <span class="nav-text">3. 接着看 AbstractChannelHandlerContext.write 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-_AbstractWriteTask中run方法"><span class="nav-number">5.</span> <span class="nav-text">4.  AbstractWriteTask中run方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-_内部类DefaultChannelPipeline-HeadContext"><span class="nav-number">6.</span> <span class="nav-text">5. 内部类DefaultChannelPipeline.HeadContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-_调用流程图如下所示"><span class="nav-number">7.</span> <span class="nav-text">6. 调用流程图如下所示</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#write方法源码分析"><span class="nav-number">1.</span> <span class="nav-text">write方法源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-_AbstractChannel-write"><span class="nav-number">1.1.</span> <span class="nav-text">1. AbstractChannel.write</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-_DefaultChannelPipeline-write方法"><span class="nav-number">1.2.</span> <span class="nav-text">2. DefaultChannelPipeline.write方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-_接着看AbstractChannelHandlerContext-_write_方法"><span class="nav-number">1.3.</span> <span class="nav-text">3. 接着看AbstractChannelHandlerContext. write 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-_接着看_AbstractChannelHandlerContext-write_方法"><span class="nav-number">1.4.</span> <span class="nav-text">3. 接着看 AbstractChannelHandlerContext.write 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-_AbstractWriteTask中run方法"><span class="nav-number">1.5.</span> <span class="nav-text">4.  AbstractWriteTask中run方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-_内部类DefaultChannelPipeline-HeadContext"><span class="nav-number">1.6.</span> <span class="nav-text">5. 内部类DefaultChannelPipeline.HeadContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-_调用流程图如下所示"><span class="nav-number">1.7.</span> <span class="nav-text">6. 调用流程图如下所示</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
