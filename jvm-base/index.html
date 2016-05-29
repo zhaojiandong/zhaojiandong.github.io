@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="Source Code Cracker">
 <meta property="og:description" content="JVM垃圾收集1. 判断对象是否存活
 引用计数算法对象添加一个引用计数器，每个地方引用它，计数器值加+1；当引用失效，计算器值减1；任何时刻计数器为0的对象不可能被使用。引用计数算法实现简单，高效。缺点：引用计数算法，很难解决相互引用的问题。12objA.instance = B;objB.instance = C;">
-<meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/GC分代">
+<meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/gen.png">
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/垃圾收集器的图.png">
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/jvmSerial收集器.png">
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/jvmParNew收集器.png">
@@ -97,7 +97,7 @@
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/jvm收集器运行示意图.png">
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/jvmCMS和Serial%20收集器区别.png">
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/jvmG1收集器.png">
-<meta property="og:updated_time" content="2016-05-04T09:33:36.542Z">
+<meta property="og:updated_time" content="2016-05-29T16:50:29.203Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM垃圾收集算法">
 <meta name="twitter:description" content="JVM垃圾收集1. 判断对象是否存活
@@ -363,7 +363,7 @@
 <li>新生代：每次收集都有大批对象死去，只有少量存活，复制算法，只需复制少量存活的对象。所以新生代大多数是stop-the-world收集器。</li>
 <li>老年代：对象存活率高，没有额外空间，必须使用“标记-清理”或“标记-整理”</li>
 <li>Eden:绝大部分对象存在Eden区域。当Java创建非常大的对象时JVM会分配在老年代而非新生代。每次收集完Eden空间总是空的。</li>
-<li><p>Survivor空间：在垃圾收集过程设有被当做垃圾收集的对象存放该区域，也就是Survivor域的对象至少经历一次回收。Eden和1个Survivor空间中存活的对象被复制到另一个Survivor空间，同时清理掉Eden和Survivor空间。<br><img src="http://7xlamb.com1.z0.glb.clouddn.com/GC分代" alt="Alt text"></p>
+<li><p>Survivor空间：在垃圾收集过程设有被当做垃圾收集的对象存放该区域，也就是Survivor域的对象至少经历一次回收。Eden和1个Survivor空间中存活的对象被复制到另一个Survivor空间，同时清理掉Eden和Survivor空间。<br><img src="http://7xlamb.com1.z0.glb.clouddn.com/gen.png" alt="Alt text"></p>
 </li>
 <li><p>枚举根节点：<br>JVM停顿下来后，并不需要一个不漏地检查完所有的引用，JVM通过一组OopMap的数据结构来直接得知哪些地方存放着对象引用。<br>在类加载完成时，JVM把对象在内存中偏移量计算出来，保存在OopMap中。这样GC在扫描引用时，可以直接得知引用关系了。</p>
 </li>
@@ -535,7 +535,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">10</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -545,7 +545,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

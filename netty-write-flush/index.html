@@ -1,0 +1,657 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="netty scc," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Netty NIO中最重要的两个方法write和flush，write方法把数据写入到OutboundBuffer（不真正发送数据），Flush方法真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。
+
+##　write方法源码分析
+
+Channel以NioSocketChannel为例，
+NioSocketChannel继承抽象类，在调用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Netty4.x write和flush源码分析（未完待续）">
+<meta property="og:url" content="http://zhaojiandong.github.io/netty-write-flush/index.html">
+<meta property="og:site_name" content="Source Code Cracker">
+<meta property="og:description" content="Netty NIO中最重要的两个方法write和flush，write方法把数据写入到OutboundBuffer（不真正发送数据），Flush方法真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。
+
+##　write方法源码分析
+
+Channel以NioSocketChannel为例，
+NioSocketChannel继承抽象类，在调用">
+<meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/Netty-scc-Write.jpg">
+<meta property="og:updated_time" content="2016-05-29T16:48:06.808Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Netty4.x write和flush源码分析（未完待续）">
+<meta name="twitter:description" content="Netty NIO中最重要的两个方法write和flush，write方法把数据写入到OutboundBuffer（不真正发送数据），Flush方法真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。
+
+##　write方法源码分析
+
+Channel以NioSocketChannel为例，
+NioSocketChannel继承抽象类，在调用">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Netty4.x write和flush源码分析（未完待续） | Source Code Cracker </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-67786766-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?191d406b7f02a0157adb6db364ad7b30";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Source Code Cracker</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">赵剑东的博客</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Netty4.x write和flush源码分析（未完待续）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-30T00:47:04+08:00" content="2016-04-30">
+              2016-04-30
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/netty-write-flush/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="netty-write-flush/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Netty NIO中最重要的两个方法write和flush，write方法把数据写入到OutboundBuffer（不真正发送数据），Flush方法真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。</p>
+</blockquote>
+<p>##　write方法源码分析</p>
+<ul>
+<li>Channel以NioSocketChannel为例，</li>
+<li>NioSocketChannel继承抽象类，在调用图中只用NioSocketChannel表示，边上的类名表示具体哪个抽象类和内部类</li>
+</ul>
+<h3 id="1-_AbstractChannel-write">1. AbstractChannel.write</h3><p>客户端首先调用了write方法，pipeline默认是实现是DefaultChannelPipeline<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">sendMsg</span><span class="params">(ByteBuf msg)</span></span>&#123;</span><br><span class="line">    future.channel().write(msg);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="function">ChannelFuture <span class="title">write</span><span class="params">(Object msg)</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">return</span> pipeline.<span class="title">write</span><span class="params">(msg)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-_DefaultChannelPipeline-write方法">2. DefaultChannelPipeline.write方法</h3><p>接着看DefaultChannelPipeline的write方法，最后一个handler写入<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="function">ChannelFuture <span class="title">write</span><span class="params">(Object msg)</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">return</span> tail.<span class="title">write</span><span class="params">(msg)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-_接着看AbstractChannelHandlerContext-_write_方法">3. 接着看AbstractChannelHandlerContext. write 方法</h3><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ChannelFuture <span class="built_in">write</span>(Object msg) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">write</span>(msg, newPromise());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-_接着看_AbstractChannelHandlerContext-write_方法">3. 接着看 AbstractChannelHandlerContext.write 方法</h3><p>最后 在中AbstractChannelHandlerContext会调用WriteTask.newInstance(next, m, promise)，生成一个task任务，这个任务主要是异步写入数据到OutboundBuffer中，源码在下面的分析。<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ChannelFuture <span class="keyword">write</span>(Object msg) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">write</span>(msg, newPromise());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> ChannelFuture <span class="keyword">write</span>(<span class="keyword">final</span> Object msg, <span class="keyword">final</span> ChannelPromise promise) &#123;</span><br><span class="line">    <span class="keyword">if</span> (msg == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException(<span class="string">"msg"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!validatePromise(promise, <span class="keyword">true</span>)) &#123;</span><br><span class="line">            ReferenceCountUtil.release(msg);</span><br><span class="line">            <span class="comment">// cancelled</span></span><br><span class="line">            <span class="keyword">return</span> promise;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (RuntimeException e) &#123;</span><br><span class="line">        ReferenceCountUtil.release(msg);</span><br><span class="line">        <span class="keyword">throw</span> e;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">write</span>(msg, <span class="keyword">false</span>, promise);</span><br><span class="line">    <span class="keyword">return</span> promise;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="keyword">write</span>(Object msg, <span class="keyword">boolean</span> flush, ChannelPromise promise) &#123;</span><br><span class="line">	AbstractChannelHandlerContext <span class="keyword">next</span> = findContextOutbound();</span><br><span class="line">	<span class="keyword">final</span> Object m = pipeline.touch(msg, <span class="keyword">next</span>);</span><br><span class="line">	EventExecutor executor = <span class="keyword">next</span>.executor();</span><br><span class="line">	<span class="keyword">if</span> (executor.inEventLoop()) &#123;</span><br><span class="line">		<span class="keyword">if</span> (flush) &#123;</span><br><span class="line">			<span class="keyword">next</span>.invokeWriteAndFlush(m, promise);</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">next</span>.invokeWrite(m, promise);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		AbstractWriteTask <span class="keyword">task</span>;</span><br><span class="line">		<span class="keyword">if</span> (flush) &#123;</span><br><span class="line">			<span class="keyword">task</span> = WriteAndFlushTask.newInstance(<span class="keyword">next</span>, m, promise);</span><br><span class="line">		&#125;  <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">task</span> = WriteTask.newInstance(<span class="keyword">next</span>, m, promise);</span><br><span class="line">		&#125;</span><br><span class="line">		safeExecute(executor, <span class="keyword">task</span>, promise, m);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-_AbstractWriteTask中run方法">4.  AbstractWriteTask中run方法</h3><p>run方法调用write，然后write中调用外部类AbstractChannelHandlerContext的最终处理方法invokeWrite0<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		ChannelOutboundBuffer buffer = ctx.channel().unsafe().outboundBuffer();</span><br><span class="line">		<span class="comment">// Check for null as it may be set to null if the channel is closed already</span></span><br><span class="line">		<span class="keyword">if</span> (ESTIMATE_TASK_SIZE_ON_SUBMIT &amp;&amp; buffer != <span class="keyword">null</span>) &#123;</span><br><span class="line">			buffer.decrementPendingOutboundBytes(size);</span><br><span class="line">		&#125;</span><br><span class="line">		write(ctx, msg, promise);</span><br><span class="line">	&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">		<span class="comment">// Set to null so the GC can collect them directly</span></span><br><span class="line">		ctx = <span class="keyword">null</span>;</span><br><span class="line">		msg = <span class="keyword">null</span>;</span><br><span class="line">		promise = <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">write</span><span class="params">(AbstractChannelHandlerContext ctx, Object msg, ChannelPromise promise)</span> </span>&#123;</span><br><span class="line">	ctx.invokeWrite(msg, promise);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">void</span> <span class="title">invokeWrite</span><span class="params">(Object msg, ChannelPromise promise)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isAdded()) &#123;</span><br><span class="line">        invokeWrite0(msg, promise);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        write(msg, promise);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">void</span> <span class="title">invokeWrite0</span><span class="params">(Object msg, ChannelPromise promise)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        ((ChannelOutboundHandler) <span class="keyword">handler</span>()).write(<span class="keyword">this</span>, msg, promise);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">        notifyOutboundHandlerException(t, promise);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="5-_内部类DefaultChannelPipeline-HeadContext">5. 内部类DefaultChannelPipeline.HeadContext</h3><p>invokeWrite0方法调用了DefaultChannelPipeline中内部类HeadContext的write方法，然后write方法调用了最“苦逼” unsafe.write方法。unsafe定义是AbstractChannel内部类AbstractUnsafe。最后在outboundBuffer中加入了msg数。在后面分析flush时AbstractUnsafe也是干了最后的”苦力”。</p>
+<ul>
+<li><p>DefaultChannelPipeline.HeadContext</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">write</span><span class="params">(ChannelHandlerContext ctx, Object msg, ChannelPromise promise)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    unsafe.write(msg, promise);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>AbstractChannel.AbstractUnsafe</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="keyword">write</span>(Object msg, ChannelPromise promise) &#123;</span><br><span class="line">	assertEventLoop();</span><br><span class="line">	ChannelOutboundBuffer outboundBuffer = <span class="keyword">this</span>.outboundBuffer;</span><br><span class="line">	<span class="keyword">if</span> (outboundBuffer == <span class="keyword">null</span>) &#123;</span><br><span class="line">		safeSetFailure(promise, CLOSED_CHANNEL_EXCEPTION);</span><br><span class="line">		<span class="comment">// release message now to prevent resource-leak</span></span><br><span class="line">		ReferenceCountUtil.release(msg);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> <span class="keyword">size</span>;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		msg = filterOutboundMessage(msg);</span><br><span class="line">		<span class="keyword">size</span> = pipeline.estimatorHandle().<span class="keyword">size</span>(msg);</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">size</span> &lt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">size</span> = <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">		safeSetFailure(promise, t);</span><br><span class="line">		ReferenceCountUtil.release(msg);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	outboundBuffer.addMessage(msg, <span class="keyword">size</span>, promise);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="6-_调用流程图如下所示">6. 调用流程图如下所示</h3><p><img src="http://7xlamb.com1.z0.glb.clouddn.com/Netty-scc-Write.jpg" alt="nett-write"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/netty-scc/" rel="tag">#netty scc</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/network-tcp-ip/" rel="next" title="TCP-IP详解">
+                <i class="fa fa-chevron-left"></i> TCP-IP详解
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="netty-write-flush/"
+           data-title="Netty4.x write和flush源码分析（未完待续）" data-url="http://zhaojiandong.github.io/netty-write-flush/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://7xlamb.com1.z0.glb.clouddn.com/gitpage2.jpg"
+               alt="jiandong.zhao" />
+          <p class="site-author-name" itemprop="name">jiandong.zhao</p>
+          <p class="site-description motion-element" itemprop="description">coder@alibaba</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-_AbstractChannel-write"><span class="nav-number">1.</span> <span class="nav-text">1. AbstractChannel.write</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-_DefaultChannelPipeline-write方法"><span class="nav-number">2.</span> <span class="nav-text">2. DefaultChannelPipeline.write方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-_接着看AbstractChannelHandlerContext-_write_方法"><span class="nav-number">3.</span> <span class="nav-text">3. 接着看AbstractChannelHandlerContext. write 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-_接着看_AbstractChannelHandlerContext-write_方法"><span class="nav-number">4.</span> <span class="nav-text">3. 接着看 AbstractChannelHandlerContext.write 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-_AbstractWriteTask中run方法"><span class="nav-number">5.</span> <span class="nav-text">4.  AbstractWriteTask中run方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-_内部类DefaultChannelPipeline-HeadContext"><span class="nav-number">6.</span> <span class="nav-text">5. 内部类DefaultChannelPipeline.HeadContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-_调用流程图如下所示"><span class="nav-number">7.</span> <span class="nav-text">6. 调用流程图如下所示</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jiandong.zhao</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zhaojiandong"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

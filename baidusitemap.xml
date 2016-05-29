@@ -2,6 +2,40 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     
+  <url>
+    <loc>http://zhaojiandong.github.io/jvm-base/</loc>
+    <lastmod>2016-05-29T16:50:29.203Z</lastmod>
+    <data>
+        <display>
+        <title>JVM垃圾收集算法</title>
+        <pubTime>2015-08-09T15:55:08.000Z</pubTime>
+        
+        <tag>jvm GC </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://zhaojiandong.github.io/netty-write-flush/</loc>
+    <lastmod>2016-05-29T16:48:06.808Z</lastmod>
+    <data>
+        <display>
+        <title>Netty4.x write和flush源码分析（未完待续）</title>
+        <pubTime>2016-04-29T16:47:04.000Z</pubTime>
+        
+        <tag>netty scc </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
     
   <url>
     <loc>http://zhaojiandong.github.io/java-class-loader/</loc>
@@ -60,23 +94,6 @@
         <title>TCP-IP详解</title>
         <pubTime>2016-03-06T15:36:01.000Z</pubTime>
         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://zhaojiandong.github.io/jvm-base/</loc>
-    <lastmod>2016-05-04T09:33:36.542Z</lastmod>
-    <data>
-        <display>
-        <title>JVM垃圾收集算法</title>
-        <pubTime>2015-08-09T15:55:08.000Z</pubTime>
-        
-        <tag>jvm GC </tag>
-         
          
            
         </display>
