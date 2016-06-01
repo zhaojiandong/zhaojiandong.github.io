@@ -80,31 +80,19 @@
 
 
 
-<meta name="description" content="Netty NIO中最重要的两个方法write和flush，write是把数据写入到OutboundBuffer（不真正发送数据），flush是真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。
-
-write方法源码分析
-Channel以NioSocketChannel为例，
-NioSocketChannel继承关系入下图所示，在调用流程">
+<meta name="description" content="Netty NIO中最重要的两个方法write和flush，write是把数据写入到OutboundBuffer（不真正发送数据），flush是真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Netty4.x write和flush源码分析">
 <meta property="og:url" content="http://zhaojiandong.github.io/netty-write-flush/index.html">
 <meta property="og:site_name" content="Source Code Cracker">
-<meta property="og:description" content="Netty NIO中最重要的两个方法write和flush，write是把数据写入到OutboundBuffer（不真正发送数据），flush是真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。
-
-write方法源码分析
-Channel以NioSocketChannel为例，
-NioSocketChannel继承关系入下图所示，在调用流程">
+<meta property="og:description" content="Netty NIO中最重要的两个方法write和flush，write是把数据写入到OutboundBuffer（不真正发送数据），flush是真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。">
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/niosocketchannel.JPG">
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/Netty-scc-Write.jpg">
 <meta property="og:image" content="http://7xlamb.com1.z0.glb.clouddn.com/Netty-scc-Flush-4.x.jpg">
-<meta property="og:updated_time" content="2016-05-30T04:37:29.092Z">
+<meta property="og:updated_time" content="2016-06-01T07:43:45.068Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Netty4.x write和flush源码分析">
-<meta name="twitter:description" content="Netty NIO中最重要的两个方法write和flush，write是把数据写入到OutboundBuffer（不真正发送数据），flush是真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。
-
-write方法源码分析
-Channel以NioSocketChannel为例，
-NioSocketChannel继承关系入下图所示，在调用流程">
+<meta name="twitter:description" content="Netty NIO中最重要的两个方法write和flush，write是把数据写入到OutboundBuffer（不真正发送数据），flush是真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。">
 
 
 
@@ -331,6 +319,7 @@ NioSocketChannel继承关系入下图所示，在调用流程">
         <blockquote>
 <p>Netty NIO中最重要的两个方法write和flush，write是把数据写入到OutboundBuffer（不真正发送数据），flush是真正的发送数据。Netty还提供另外一个方法writeAndFlush就是将write和flush方法合起来。</p>
 </blockquote>
+<a id="more"></a>
 <h2 id="write方法源码分析">write方法源码分析</h2><ul>
 <li>Channel以NioSocketChannel为例，</li>
 <li>NioSocketChannel继承关系入下图所示，在调用流程图上我们用边上的类名表示抽象类或者内部类</li>
